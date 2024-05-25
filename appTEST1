@@ -1,0 +1,52 @@
+import streamlit as st
+
+# Define the search syntax generator function for various products
+def generate_search_syntax(product, variable, user_input):
+    syntax = ""
+    if product == "Shodan":
+        if variable == "IP":
+            syntax = f"Shodan: ip:{user_input}"
+        elif variable == "Organization":
+            syntax = f"Shodan: org:{user_input}"
+    elif product == "Censys":
+        if variable == "IP":
+            syntax = f"Censys: ipv4:{user_input}"
+        elif variable == "Organization":
+            syntax = f"Censys: autonomous_system.organization:{user_input}"
+    elif product == "ZoomEye":
+        if variable == "IP":
+            syntax = f"ZoomEye: ip:{user_input}"
+        elif variable == "Organization":
+            syntax = f"ZoomEye: org:{user_input}"
+    elif product == "FOFA":
+        if variable == "IP":
+            syntax = f"FOFA: ip=\"{user_input}\""
+        elif variable == "Organization":
+            syntax = f"FOFA: org=\"{user_input}\""
+    return syntax
+
+def main():
+    st.title('Search Syntax Generator')
+
+    # Product selection
+    product = st.selectbox('Select Product', ['Shodan', 'Censys', 'ZoomEye', 'FOFA'])
+
+    # Variable selection
+    variable = st.selectbox('Select Variable', ['IP', 'Organization'])
+
+    # User input section
+    user_input = st.text_input(f'Enter {variable}')
+
+    # Generate search syntax button
+    if st.button('Generate Search Syntax'):
+        if user_input:
+            # Generate search syntax
+            syntax = generate_search_syntax(product, variable, user_input)
+            
+            # Display the generated search syntax
+            st.write(f"Search Syntax for {product}: {syntax}")
+        else:
+            st.warning(f'Please enter a {variable.lower()}')
+
+if __name__ == "__main__":
+    main()
